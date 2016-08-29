@@ -1,5 +1,5 @@
-.swp
-.class
-.out
+*.swp
+*.class
+*.out
 
-.jar
+*.jar
