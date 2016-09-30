@@ -1,2 +1,4 @@
 all:
-	javac -d ../Classes BinTree.java
+	javac -d ../Classes Tree.java
+	javac -d ../Classes ./Ordered/OrderedTree.java ./Ordered/BinTree.java
+	
