@@ -1,4 +1,4 @@
-
+/**
 
 public class BinTree<T, C extends Tree<T, C>> extends
 						OrderedTree<T, C> {
@@ -9,4 +9,4 @@ public class BinTree<T, C extends Tree<T, C>> extends
 		super(2, value);
 	}
  
-}
+}*/

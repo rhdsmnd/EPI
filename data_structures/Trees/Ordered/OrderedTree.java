@@ -1,8 +1,9 @@
 public class OrderedTree<T> extends Tree<T> {
-	public OrderedTree(int numChildren, ) {
-		super(numChildren, value);
 
-		this.children = new C[numChildren];
+	protected OrderedTree(int numChildren, T value) {
+		super(numChildren, value, OrderedTree.class);
+
+		this.children = new Object[numChildren];
 		for (int i = 0; i < this.children.length; i += 1) {
 			this.children[i] = null;
 		}
@@ -20,38 +21,40 @@ public class OrderedTree<T> extends Tree<T> {
 	}
 
 	@Override
-	public Tree<T, C> getChild(int index) {
+	public Tree<T> getChild(int index) {
 		if (index < maxChildren()) {
-			return children[index];
+			return (Tree<T>) children[index];
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public void deleteChild(C child) {
+	public void deleteChild(Tree<T> child) {
 		for (int i = 0; i < this.children.length; i += 1) {
-			C elem = this.children[i];
+			OrderedTree<T> elem = (OrderedTree<T>) this.children[i];
 			if (child == elem) {
 				this.children[i] = null;
 			}
 		}
-	}		
+	}	
 
 	@Override
 	public void deleteChild(int index) {
 		if (index < maxChildren()) {
+			((OrderedTree<T>) children[index]).setParent(null);
 			children[index] = null;
 		}
 	}
 
 	@Override
-	public void setChild(int index, Tree<T, C> newChild) {
-		if (index < this.maxChildren()) {
+	public void setChild(int index, Tree<T> newChild) {
+		if (index < this.maxChildren() && this.treeType.isAssignableFrom(newChild.getClass())) {
 			this.children[index] = newChild;
+			newChild.setParent(this);
 		}
 	}
 
-	protected final C[] children;
+	protected final Object[] children;
 }
 

@@ -4,11 +4,11 @@ public abstract class Tree<T> {
 	public abstract int maxChildren();
 
 	protected Tree(int numChildren, T value, Class<?> treeType) {
-		if (this.getClass().isAssignableFrom(treeType) {
+		if (this.getClass().isAssignableFrom(treeType)) {
 			this.treeType = treeType;
 		} else {
 			// raise exception
-			System.out.println("Couldn't assign Tree type in Tree.java.");
+			System.out.println("Treetype not a subtype of Tree class.");
 		}
 
 		if (numChildren < 1) {
@@ -29,24 +29,27 @@ public abstract class Tree<T> {
 		this.value = value;
 	}
 
-	public void setParent(C parent) {
-		this.parent = parent;
+	public void setParent(Tree<T> parent) {
+		if (this.treeType.isAssignableFrom(parent.getClass())) {
+			this.parent = parent;
+		}
 	}
 
-	public C getParent() {
+	public Tree<T> getParent() {
 		return this.parent;
 	}
 
-	public abstract C getChild(int index);
+	public abstract Tree<T> getChild(int index);
 
-	public abstract void deleteChild(C child);
+	public abstract void deleteChild(Tree<T> child);
 	public abstract void deleteChild(int index);
 
-	public abstract void setChild(int index, C child);
+	public abstract void setChild(int index, Tree<T> child);
 	
-	protected C parent;
+	protected Tree<T> parent;
 	protected T value;
 	protected final int maxChildren;
 
-	protected final Class<?> treeType;
+	protected Class<?> treeType;
+
 }
