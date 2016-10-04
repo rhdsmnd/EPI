@@ -1,7 +1,11 @@
 public class OrderedTree<T> extends Tree<T> {
 
-	protected OrderedTree(int numChildren, T value) {
-		super(numChildren, value, OrderedTree.class);
+	public OrderedTree(int numChildren, T value) {
+		this(numChildren, value, OrderedTree.class);
+	}
+
+	protected OrderedTree(int numChildren, T value, Class<?> subType) {
+		super(numChildren, value, subType);
 
 		this.children = new Object[numChildren];
 		for (int i = 0; i < this.children.length; i += 1) {

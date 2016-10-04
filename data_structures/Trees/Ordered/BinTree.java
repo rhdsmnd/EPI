@@ -1,12 +1,11 @@
-/**
 
-public class BinTree<T, C extends Tree<T, C>> extends
-						OrderedTree<T, C> {
+public class BinTree<T> extends
+						OrderedTree<T> {
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
     
 	public BinTree(T value) {
-		super(2, value);
+		super(2, value, BinTree.class);
 	}
  
-}*/
+}
