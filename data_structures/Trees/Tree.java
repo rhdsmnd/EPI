@@ -29,14 +29,20 @@ public abstract class Tree<T> {
 		this.value = value;
 	}
 
-	public void setParent(Tree<T> parent) {
-		if (this.treeType.isAssignableFrom(parent.getClass())) {
+	protected void setParent(Tree<T> parent) {
+		//null checks
+		if (parent == null || (this.treeType.isAssignableFrom(parent.getClass())
+				&& this.maxChildren() == parent.maxChildren())) {
 			this.parent = parent;
 		}
 	}
 
 	public Tree<T> getParent() {
 		return this.parent;
+	}
+
+	public Class<?> getTreeType() {
+		return this.treeType;
 	}
 
 	public abstract Tree<T> getChild(int index);
