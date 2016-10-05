@@ -65,6 +65,7 @@ public class OrderedTree<T> extends Tree<T> {
 			newChild.setParent(this);
 		}
 	}
+ 
 
 	protected int numChildren;
 	protected final Object[] children;
