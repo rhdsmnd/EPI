@@ -65,6 +65,46 @@ public class OrderedTree<T> extends Tree<T> {
 			newChild.setParent(this);
 		}
 	}
+
+	public boolean equals(Tree<T> otherTree) {
+		if (otherTree == null || this.treeType != otherTree.getTreeType()
+				|| this.maxChildren() != otherTree.maxChildren()) {
+			return false;
+		}
+
+		T thisData = this.getValue();
+		T otherData = otherTree.getValue();
+
+		boolean equalValues;
+		if (thisData == null && otherData == null) {
+			equalValues = true;
+		else if (thisData == null || otherData == null) {
+			equalValues = false;
+		} else {
+			equalValues = thisData.equals(otherData);
+		}
+
+		if (!equalValues) {
+			return false;
+		}
+
+		boolean equalChildren;
+		Tree<T> thisChild;
+		Tree<T> otherChild;
+		for (int i = 0; i < this.maxChildren(); i += 1) {
+			thisChild = this.getChild(i);
+			otherChild = otherTree.getChild(i);
+
+			if (thisChild == null && otherChild == null) {
+				continue;
+			} else if (thisChild == null || otherChild == null
+					|| !(thisChild.equals(otherChild))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
  
 
 	protected int numChildren;

@@ -45,6 +45,8 @@ public abstract class Tree<T> {
 		return this.treeType;
 	}
 
+	public abstract boolean equals(Tree<T> otherTree);
+
 	public abstract Tree<T> getChild(int index);
 
 	public abstract void deleteChild(Tree<T> child);

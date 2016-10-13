@@ -91,18 +91,20 @@ public class TreeUtil {
 				return null;
 			}
 
-			Tree<T> root = this.createTree(this.dataParser.parseAndDiscard(strBuf), numChildren);
+			Object dataObj = this.dataParser.parseAndDiscard(strBuf);
+			Tree<T> root = this.createTree(treeType, numChildren, dataObj);
 
 			int childInd = 0;
 			Tree<T> child;
 
 			// hard code condition for ordered tree for now
-			while (strBuf.length() > 0 && root.numChildren() < root.maxChildren()) {
+			while (nextToken(strBuf) != null && nextToken(strBuf) == '(') {
 				child =	this.treeFromString(strBuf, treeType, numChildren);
 				root.setChild(root.numChildren(), child);
 			}
 
 			if (nextToken(strBuf) != null && nextToken(strBuf) == ')') {
+				strBuf.deleteCharAt(0);
 				return root;
 			} else {
 				System.out.println("Error parsing tree");
@@ -123,8 +125,13 @@ public class TreeUtil {
 			}
 		}
 
-		public Tree<T> createTree(Object dataObj, int numChildren) {
-			return new OrderedTree<T>(numChildren, (T) dataObj);
+		public Tree<T> createTree(Class<?> treeType, int numChildren, Object dataObj) {
+			if (treeType == OrderedTree.class) {
+				return new OrderedTree<T>(numChildren, (T) dataObj);
+			} else {
+				System.out.println("Tree type unrecognized.");
+				return null;
+			}
 		}
 	}
 }
