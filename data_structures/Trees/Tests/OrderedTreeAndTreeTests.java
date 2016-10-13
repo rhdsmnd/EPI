@@ -39,8 +39,10 @@ public class OrderedTreeAndTreeTests {
 	public void matchingTreesOnly() {
 		Tree<String> root = new OrderedTree<String>(2, "root");
 		Tree<String> child1 = new OrderedTree<String>(3, "child1");
+		Tree<String> binTreeChild = new BinTree<String>("child2");
 
 		root.setChild(0, child1);
+		root.setChild(1, binTreeChild);
 		assertEquals(0, root.numChildren());
 	}
 
@@ -71,7 +73,7 @@ public class OrderedTreeAndTreeTests {
 		assertTrue(root.equals(eqRoot));
 		assertTrue(eqRoot.equals(root));
 
-		Tree<String difChildNum = new OrderedTree<String>(3, "root");
+		Tree<String> difChildNum = new OrderedTree<String>(3, "root");
 		assertTrue(!root.equals(difChildNum)); 
 
 		Tree<String> difTreeType = new BinTree<String>("root");
@@ -110,7 +112,7 @@ public class OrderedTreeAndTreeTests {
 		root.deleteChild(0);
 		eqRoot.deleteChild(0);
 
-		swapChild = new OrderedTree<String>(2, "root");
+		Tree<String> swapChild = new OrderedTree<String>(2, "root");
 		swapChild.setChild(0, child2);
 		swapChild.setChild(1, child1);
 

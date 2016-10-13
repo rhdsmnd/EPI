@@ -57,7 +57,7 @@ public class OrderedTree<T> extends Tree<T> {
 
 	@Override
 	public void setChild(int index, Tree<T> newChild) {
-		if (index < this.maxChildren() && this.treeType.isAssignableFrom(newChild.getClass())
+		if (index < this.maxChildren() && this.getClass().equals(newChild.getClass())
 			&& this.maxChildren == newChild.maxChildren()) {
 			
 			this.children[index] = newChild;
@@ -78,7 +78,7 @@ public class OrderedTree<T> extends Tree<T> {
 		boolean equalValues;
 		if (thisData == null && otherData == null) {
 			equalValues = true;
-		else if (thisData == null || otherData == null) {
+		} else if (thisData == null || otherData == null) {
 			equalValues = false;
 		} else {
 			equalValues = thisData.equals(otherData);
