@@ -7,8 +7,9 @@ public class TreeUtil {
 		}
 
 		public TreeParser(Class<T> dataType,
-							Class<? extends Tree<T>> treeType) {
+							Class<? extends Tree> treeType) {
 			this.treeType = treeType;
+			System.out.println("class type is: " + dataType);
 			if (dataType == String.class) {
 				this.dataParser = ((StringBuffer strBuf) -> {
 					// search for ", continue if instance = \" // 
@@ -56,22 +57,28 @@ public class TreeUtil {
 					}
 				});
 			} else {
+				System.out.println("Null data parser");
 				this.dataParser = null;
 			}
 		}
 
-		public TreeParser(Class<T> dataType, Class<? extends Tree<T>> treeType,
+		public TreeParser(Class<T> dataType, Class<? extends Tree> treeType,
 							ParseDataObj func) {
 			this.treeType = treeType;
 			this.dataParser = func;
 		}
 
-		Class<? extends Tree<T>> treeType;
+		Class<? extends Tree> treeType;
 		ParseDataObj dataParser;
+
+		public Tree<T> treeFromString(String str, Class<? extends Tree> treeType,
+										int numChildren) {
+			return treeFromString(new StringBuffer(str), treeType, numChildren);
+		}
 
 		// syntax (1 () ()))
 		public Tree<T> treeFromString(StringBuffer strBuf,
-					Class<? extends Tree<T>> treeType, int numChildren) {
+					Class<? extends Tree> treeType, int numChildren) {
 			// consider making helper function
 			// null checks for strBuf
 			nextToken(strBuf);
@@ -128,6 +135,8 @@ public class TreeUtil {
 		public Tree<T> createTree(Class<?> treeType, int numChildren, Object dataObj) {
 			if (treeType == OrderedTree.class) {
 				return new OrderedTree<T>(numChildren, (T) dataObj);
+			} else if (treeType == BinTree.class) {
+				return new BinTree<T>((T) dataObj);
 			} else {
 				System.out.println("Tree type unrecognized.");
 				return null;

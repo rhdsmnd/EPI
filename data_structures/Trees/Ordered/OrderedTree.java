@@ -57,7 +57,13 @@ public class OrderedTree<T> extends Tree<T> {
 
 	@Override
 	public void setChild(int index, Tree<T> newChild) {
-		if (index < this.maxChildren() && this.getClass().equals(newChild.getClass())
+		if (index < this.maxChildren() && newChild == null) {
+			if (this.children[index] != null) {
+				Tree<T> curChild = (Tree<T>) this.children[index];
+				curChild.setParent(null);
+				this.children[index] = null;
+			}	
+		} else if (index < this.maxChildren() && this.getClass().equals(newChild.getClass())
 			&& this.maxChildren == newChild.maxChildren()) {
 			
 			this.children[index] = newChild;
