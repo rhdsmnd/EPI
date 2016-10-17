@@ -45,6 +45,10 @@ public abstract class Tree<T> {
 		return this.treeType;
 	}
 
+	protected boolean isTypeSafe(Tree<T> otherTree) {
+		return this.treeType == otherTree.treeType;
+	}
+
 	public abstract boolean equals(Tree<T> otherTree);
 
 	public abstract Tree<T> getChild(int index);

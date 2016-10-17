@@ -82,7 +82,6 @@ public class TreeUtil {
 			// consider making helper function
 			// null checks for strBuf
 			nextToken(strBuf);
-	
 
 			int ind = 0;
 			if (strBuf.charAt(ind) != '(') {
