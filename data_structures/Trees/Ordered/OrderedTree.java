@@ -63,8 +63,9 @@ public class OrderedTree<T> extends Tree<T> {
 				curChild.setParent(null);
 				this.children[index] = null;
 			}	
-		} else if (index < this.maxChildren() && this.getClass().equals(newChild.getClass())
-			&& this.maxChildren == newChild.maxChildren()) {
+		} else if (index < this.maxChildren()
+					&& this.getClass().equals(newChild.getClass())
+					&& this.maxChildren == newChild.maxChildren()) {
 			
 			this.children[index] = newChild;
 			this.numChildren += 1;
@@ -72,6 +73,7 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 	}
 
+	@Override
 	public boolean isEqual(Tree<T> otherTree) {
 		if (otherTree == null || this.treeType != otherTree.getTreeType()
 				|| this.maxChildren() != otherTree.maxChildren()) {
@@ -94,7 +96,6 @@ public class OrderedTree<T> extends Tree<T> {
 			return false;
 		}
 
-		boolean equalChildren;
 		Tree<T> thisChild;
 		Tree<T> otherChild;
 		for (int i = 0; i < this.maxChildren(); i += 1) {
@@ -111,7 +112,39 @@ public class OrderedTree<T> extends Tree<T> {
 		return true;
 	}
 
- 
+
+	@Override
+	public Iterator<? extends Tree<T>> getChildren() {
+		return new Iterator<? extends Tree<T>> {
+			@Override
+			boolean hasNext() {
+				while (this.i < this.children.length && this.children[i] == null) {
+					this.i += 1;
+				}
+				if (this.i >= this.children.length) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			@Override
+			OrderedTree<T> next() throws NoSuchElementException {
+				while (i < children.length && children[i] == null) {
+					this.i += 1;
+				}
+				if (this.i >= children.length) {
+					throw new NoSuchElementException();
+				} else {
+					OrderedTree<T> ret = (OrderedTree<T>) children[i];
+					i += 1;
+					return ret;
+				}
+			}
+
+			private int i = 0;
+		};
+	}
 
 	protected int numChildren;
 	protected final Object[] children;

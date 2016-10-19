@@ -9,16 +9,19 @@ public class UnorderedTree<T> extends Tree<T> {
 		return children.size();
 	}
 
-	/** Method less relevant than OrderedChildren. May add method
-	 *  to configure max children based on percentage of heap. Though
-	 *  this would require another field for knowing the size of the
-	 *  tree, and would be expensive to manage when updating an arbitrary
-	 *  subtree. */
 	public int maxChildren() {
 		return Integer.MAX_INT;
 	}
 
-	public Iterator<UnorderedTree<T>> getChildren() {
+	public boolean addChild(Tree<T> child) {
+		if (this.matchesTreeType(child)) {
+			this.children.add(child);
+			child.setParent(this);
+		}
+	}
+
+	@Override
+	public Iterator<? extends Tree<T>> getChildren() {
 		return this.children.iterator();
 	}
 
@@ -29,8 +32,8 @@ public class UnorderedTree<T> extends Tree<T> {
 		}
 	}
 
-
-	public boolean contains(Tree<T> child) {
+	@Override
+	public boolean containsChild(Tree<T> child) {
 		return this.children.contains(child);
 	}
 

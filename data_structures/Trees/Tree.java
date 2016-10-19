@@ -31,7 +31,7 @@ public abstract class Tree<T> {
 
 	protected void setParent(Tree<T> parent) {
 		//null checks
-		if (parent == null || (this.treeType.isAssignableFrom(parent.getClass())
+		if (parent == null || (this.matchesTreeType(parent)
 				&& this.maxChildren() == parent.maxChildren())) {
 			this.parent = parent;
 		}
@@ -45,21 +45,27 @@ public abstract class Tree<T> {
 		return this.treeType;
 	}
 
-	protected boolean isTypeSafe(Tree<T> otherTree) {
+	protected boolean matchesTreeType(Tree<T> otherTree) {
 		return this.treeType == otherTree.treeType;
 	}
 
 	public abstract boolean isEqual(Tree<T> otherTree);
 
-	public abstract Tree<T> getChild(int index);
+	public abstract Iterator<? extends Tree<T>> getChildren();
 
 	public abstract void deleteChild(Tree<T> child);
+
+	public abstract boolean containsChild(Tree<T> child);
+
+	//public abstract boolean contains(Tree<T> desc);
+
+	public abstract Iterator<? extends Tree<T>> getChildren();
 
 	
 	protected Tree<T> parent;
 	protected T value;
 	protected final int maxChildren;
 
-	protected Class<?> treeType;
+	protected final Class<?> treeType;
 
 }
