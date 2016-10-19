@@ -49,14 +49,12 @@ public abstract class Tree<T> {
 		return this.treeType == otherTree.treeType;
 	}
 
-	public abstract boolean equals(Tree<T> otherTree);
+	public abstract boolean isEqual(Tree<T> otherTree);
 
 	public abstract Tree<T> getChild(int index);
 
 	public abstract void deleteChild(Tree<T> child);
-	public abstract void deleteChild(int index);
 
-	public abstract void setChild(int index, Tree<T> child);
 	
 	protected Tree<T> parent;
 	protected T value;

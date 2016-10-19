@@ -72,7 +72,7 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 	}
 
-	public boolean equals(Tree<T> otherTree) {
+	public boolean isEqual(Tree<T> otherTree) {
 		if (otherTree == null || this.treeType != otherTree.getTreeType()
 				|| this.maxChildren() != otherTree.maxChildren()) {
 			return false;
@@ -104,7 +104,7 @@ public class OrderedTree<T> extends Tree<T> {
 			if (thisChild == null && otherChild == null) {
 				continue;
 			} else if (thisChild == null || otherChild == null
-					|| !(thisChild.equals(otherChild))) {
+					|| !(thisChild.isEqual(otherChild))) {
 				return false;
 			}
 		}
