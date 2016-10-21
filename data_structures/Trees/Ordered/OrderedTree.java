@@ -1,3 +1,6 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class OrderedTree<T> extends Tree<T> {
 
 	public OrderedTree(int numChildren, T value) {
@@ -7,9 +10,9 @@ public class OrderedTree<T> extends Tree<T> {
 	protected OrderedTree(int numChildren, T value, Class<?> subType) {
 		super(numChildren, value, subType);
 
-		this.children = new Object[numChildren];
-		for (int i = 0; i < this.children.length; i += 1) {
-			this.children[i] = null;
+		children = new Object[numChildren];
+		for (int i = 0; i < children.length; i += 1) {
+			children[i] = null;
 		}
 		this.numChildren = 0;
 	}
@@ -20,15 +23,10 @@ public class OrderedTree<T> extends Tree<T> {
 		return this.numChildren;
 	}
 
-	@Override
-	public int maxChildren() {
-		return this.maxChildren;
-	}
-
-	@Override
-	public Tree<T> getChild(int index) {
+	// move code later to after Tree methods
+	public OrderedTree<T> getChild(int index) {
 		if (index < maxChildren()) {
-			return (Tree<T>) children[index];
+			return (OrderedTree<T>) children[index];
 		} else {
 			return null;
 		}
@@ -36,17 +34,16 @@ public class OrderedTree<T> extends Tree<T> {
 
 	@Override
 	public void deleteChild(Tree<T> child) {
-		for (int i = 0; i < this.children.length; i += 1) {
-			OrderedTree<T> elem = (OrderedTree<T>) this.children[i];
+		for (int i = 0; i < children.length; i += 1) {
+			OrderedTree<T> elem = (OrderedTree<T>) children[i];
 			if (child == elem) {
-				this.children[i] = null;
+				children[i] = null;
 				child.setParent(null);
 				this.numChildren -= 1;
 			}
 		}
 	}	
 
-	@Override
 	public void deleteChild(int index) {
 		if (index < maxChildren() && children[index] != null) {
 			((OrderedTree<T>) children[index]).setParent(null);
@@ -55,19 +52,21 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 	}
 
-	@Override
 	public void setChild(int index, Tree<T> newChild) {
-		if (index < this.maxChildren() && newChild == null) {
-			if (this.children[index] != null) {
-				Tree<T> curChild = (Tree<T>) this.children[index];
-				curChild.setParent(null);
-				this.children[index] = null;
-			}	
-		} else if (index < this.maxChildren()
+		if (index >= this.maxChildren()) {
+			// raise exception
+			return;
+		}
+		if (children[index] != null) {
+			Tree<T> curChild = (Tree<T>) children[index];
+			curChild.setParent(null);
+			children[index] = null;
+		}
+		if (newChild != null
 					&& this.getClass().equals(newChild.getClass())
 					&& this.maxChildren == newChild.maxChildren()) {
 			
-			this.children[index] = newChild;
+			children[index] = newChild;
 			this.numChildren += 1;
 			newChild.setParent(this);
 		}
@@ -96,11 +95,11 @@ public class OrderedTree<T> extends Tree<T> {
 			return false;
 		}
 
-		Tree<T> thisChild;
-		Tree<T> otherChild;
+		OrderedTree<T> thisChild;
+		OrderedTree<T> otherChild;
 		for (int i = 0; i < this.maxChildren(); i += 1) {
 			thisChild = this.getChild(i);
-			otherChild = otherTree.getChild(i);
+			otherChild = ((OrderedTree<T>) otherTree).getChild(i);
 
 			if (thisChild == null && otherChild == null) {
 				continue;
@@ -114,14 +113,14 @@ public class OrderedTree<T> extends Tree<T> {
 
 
 	@Override
-	public Iterator<? extends Tree<T>> getChildren() {
-		return new Iterator<? extends Tree<T>> {
+	public Iterator<Tree<T>> getChildren() {
+		return new Iterator<Tree<T>>() {
 			@Override
-			boolean hasNext() {
-				while (this.i < this.children.length && this.children[i] == null) {
-					this.i += 1;
+			public boolean hasNext() {
+				while (i < children.length && children[i] == null) {
+					i += 1;
 				}
-				if (this.i >= this.children.length) {
+				if (i >= children.length) {
 					return false;
 				} else {
 					return true;
@@ -129,14 +128,14 @@ public class OrderedTree<T> extends Tree<T> {
 			}
 
 			@Override
-			OrderedTree<T> next() throws NoSuchElementException {
+			public Tree<T> next() throws NoSuchElementException {
 				while (i < children.length && children[i] == null) {
-					this.i += 1;
+					i += 1;
 				}
-				if (this.i >= children.length) {
+				if (i >= children.length) {
 					throw new NoSuchElementException();
 				} else {
-					OrderedTree<T> ret = (OrderedTree<T>) children[i];
+					Tree<T> ret = (Tree<T>) children[i];
 					i += 1;
 					return ret;
 				}
@@ -146,6 +145,16 @@ public class OrderedTree<T> extends Tree<T> {
 		};
 	}
 
+	// move later to match class order in Tree.java
+	@Override
+	public boolean containsChild(Tree<T> desc) {
+		for (int i = 0; i < children.length; i += 1) {
+			if (desc == children[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
 	protected int numChildren;
 	protected final Object[] children;
 }
