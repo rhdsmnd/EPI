@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 public class OrderedTreeAndTreeTests {
 
@@ -9,6 +11,19 @@ public class OrderedTreeAndTreeTests {
 	public void initAndChildAssign() {
 		OrderedTree<String> root = new OrderedTree<String>(2, "root");
 		assertEquals("root", root.getValue());
+
+		// copied from OrderedTreeTests.java
+		Iterator<Tree<String>> empty = root.getChildren();
+
+		assertTrue(!empty.hasNext());
+
+		try {
+			empty.next();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			assertTrue(true);
+		}
+
 		OrderedTree<String> child1 = new OrderedTree<String>(2, "child1");
 		OrderedTree<String> child2 = new OrderedTree<String>(2, "child2");
 		assertEquals(2, root.maxChildren());
@@ -23,6 +38,25 @@ public class OrderedTreeAndTreeTests {
 		assertEquals(2, root.numChildren());
 		assertEquals(2, root.maxChildren());
 		assertEquals(OrderedTree.class, root.getTreeType());
+
+		ArrayList<OrderedTree<String>> childList = new ArrayList<OrderedTree<String>>();
+		childList.add(child1);
+		childList.add(child2);
+
+		Iterator<Tree<String>> twoChildren = root.getChildren();
+
+		try {
+			OrderedTree<String> iter = (OrderedTree<String>) twoChildren.next();	
+			assertTrue(childList.contains(iter));
+			childList.remove(iter);
+			iter = (OrderedTree<String>) twoChildren.next();
+			assertTrue(childList.contains(iter));
+			childList.remove(iter);
+			assertTrue(!twoChildren.hasNext());
+		} catch (NoSuchElementException e) {
+			assertTrue(false);
+		}
+
 
 		root.deleteChild(0);
 		assertEquals(1, root.numChildren());

@@ -1,10 +1,13 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.Iterator;
+import java.util.ArrayList;
+
 public class TreeParserTests {
 
 	@Test
-	public void intTreeTest() {
+	public void OrdIntTreeTest() {
 		TreeUtil.TreeParser<Integer> intTreeParser
 				= new TreeUtil.TreeParser<Integer>(Integer.class,
 										 OrderedTree.class);
@@ -13,20 +16,20 @@ public class TreeParserTests {
 		OrderedTree<Integer> parsedIntTree = (OrderedTree<Integer>) intTreeParser.treeFromString(ordIntTree,
 															OrderedTree.class, 2);
 		OrderedTree<Integer> eqIntTree = new OrderedTree<Integer>(2, 1, OrderedTree.class);
-		assertTrue(intTreeParser.treeFromString(ordIntTree,
-											OrderedTree.class, 2).equals(parsedIntTree));
+		assertTrue(((OrderedTree<Integer>) intTreeParser.treeFromString(ordIntTree,
+											OrderedTree.class, 2)).isEqual(parsedIntTree));
 
 		String simpBinTreeInt = "(1)";
 		OrderedTree<Integer> eqBinTree = new BinTree<Integer>(1);
 		OrderedTree<Integer> parsedBinTree = (OrderedTree<Integer>) intTreeParser.treeFromString(simpBinTreeInt,
 															BinTree.class, 2);
-		assertTrue(parsedBinTree.equals(eqBinTree));
+		assertTrue(parsedBinTree.isEqual(eqBinTree));
 
 		String handleWhitespace = "(   1 ( \n) (\t	)		)";
 		parsedIntTree = (OrderedTree<Integer>) intTreeParser.treeFromString(handleWhitespace,
 															OrderedTree.class, 2);
 		eqIntTree = new OrderedTree<Integer>(2, 1, OrderedTree.class);
-		assertTrue(eqIntTree.equals(parsedIntTree));
+		assertTrue(eqIntTree.isEqual(parsedIntTree));
 
 		String multilevelTree = "(1 (2) (3))";
 		eqBinTree = new BinTree<Integer>(1);
@@ -53,6 +56,8 @@ public class TreeParserTests {
 		parsedBinTree = (OrderedTree<Integer>) intTreeParser.treeFromString(largerMultilevelTree,
 															BinTree.class, 2);
 		// Changing variable name semantics: child2 now refers to node with data = 2
+
+
 		eqBinTree = new BinTree<Integer>(1);
 		child2 = new BinTree<Integer>(2);
 		OrderedTree<Integer> child3=  new BinTree<Integer>(3);
@@ -69,12 +74,13 @@ public class TreeParserTests {
 		child3.setChild(BinTree.LEFT, child6);
 		child3.setChild(BinTree.RIGHT, child7);
 
-		assertTrue(eqBinTree.equals(parsedBinTree));
+
+		assertTrue(eqBinTree.isEqual(parsedBinTree));
 
 		child3.deleteChild(BinTree.LEFT);
 		parsedBinTree.getChild(BinTree.RIGHT).deleteChild(BinTree.LEFT);
 
-		assertTrue(eqBinTree.equals(parsedBinTree));
+		assertTrue(eqBinTree.isEqual(parsedBinTree));
 
 		String threeChildren = "(1 (2 (5) (6) (7)) (3 (8) (9) (10)) (4 (11) (12) (13)))";
 		parsedIntTree = (OrderedTree<Integer>) intTreeParser.treeFromString(threeChildren, OrderedTree.class,
@@ -111,7 +117,37 @@ public class TreeParserTests {
 		child4.setChild(1, child12);
 		child4.setChild(2, child13);
 
-		assertTrue(eqIntTree.equals(parsedIntTree));
+		assertTrue(eqIntTree.isEqual(parsedIntTree));
 
 	}
+
+	
+	@Test
+	public void UnordIntTreeTest() {
+		TreeUtil.TreeParser<Integer> unordIntTreeParser = new TreeUtil.TreeParser(Integer.class,
+																		UnorderedTree.class);
+		String simpleTree = "(1)"; 
+
+		Tree<Integer> parsedTree = unordIntTreeParser.treeFromString(simpleTree,
+																	UnorderedTree.class);
+		assertEquals(parsedTree.getValue(), new Integer(1));
+		assertEquals(parsedTree.numChildren(), 0);
+
+		String simpleWithChildren = "(1 (2) (3))";
+		parsedTree = unordIntTreeParser.treeFromString(simpleWithChildren,
+														UnorderedTree.class);
+
+		ArrayList<Integer> childVals = new ArrayList<Integer>();
+		Iterator<Tree<Integer>> children = parsedTree.getChildren();
+		Tree<Integer> childIter;
+		while(children.hasNext()) {
+			childIter = children.next();
+			childVals.add(childIter.getValue());
+			assertEquals(UnorderedTree.class, childIter.getTreeType());
+		}
+		assertTrue(childVals.contains(2));
+		assertTrue(childVals.contains(3));
+		assertEquals(childVals.size(), 2);
+	}
+
 }
