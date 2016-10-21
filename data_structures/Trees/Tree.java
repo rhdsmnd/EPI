@@ -56,7 +56,7 @@ public abstract class Tree<T> {
 		return this.treeType == otherTree.treeType;
 	}
 
-	public abstract boolean isEqual(Tree<T> otherTree);
+	//public abstract boolean isEqual(Tree<T> otherTree);
 
 
 	public abstract void deleteChild(Tree<T> child);

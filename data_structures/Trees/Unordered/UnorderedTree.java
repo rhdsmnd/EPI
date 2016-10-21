@@ -4,28 +4,31 @@ import java.util.HashSet;
 public class UnorderedTree<T> extends Tree<T> {
 
 	public UnorderedTree(T value, Class<?> treeType) {
-		super(Integer.MAX_INT, value, treeType);
-		children = new HashSet<UnorderedTree<T>>();
+		super(Integer.MAX_VALUE, value, treeType);
+		children = new HashSet<Tree<T>>();
 	}
 
 	public int numChildren() {
 		return children.size();
 	}
 
-	public boolean addChild(Tree<T> child) {
+	public void addChild(Tree<T> child) {
 		if (this.matchesTreeType(child)) {
 			children.add(child);
 			child.setParent(this);
+		} else {
+			// raise exception
+			System.out.println("Tree types do not match, cannot add child");
 		}
 	}
 
 	@Override
-	public Iterator<? extends Tree<T>> getChildren() {
+	public Iterator<Tree<T>> getChildren() {
 		return children.iterator();
 	}
 
 	public void deleteChild(Tree<T> child) {
-		if (children.contains(child) != null) {
+		if (children.contains(child)) {
 			children.remove(child);
 			child.setParent(null);
 		}
@@ -36,5 +39,5 @@ public class UnorderedTree<T> extends Tree<T> {
 		return children.contains(child);
 	}
 
-	private HashSet<UnorderedTree<T>> children;	
+	private HashSet<Tree<T>> children;	
 }

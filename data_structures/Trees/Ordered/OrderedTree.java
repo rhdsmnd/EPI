@@ -72,12 +72,15 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 	}
 
-	@Override
+	//@Override
 	public boolean isEqual(Tree<T> otherTree) {
 		if (otherTree == null || this.treeType != otherTree.getTreeType()
 				|| this.maxChildren() != otherTree.maxChildren()) {
+			System.out.println(this.treeType);
+			System.out.println(otherTree.getTreeType());
 			return false;
 		}
+
 
 		T thisData = this.getValue();
 		T otherData = otherTree.getValue();

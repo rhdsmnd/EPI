@@ -5,6 +5,9 @@ all:
 	javac -d ./Classes -cp ../../../../libs/*:../../Classes/:. OrderedTreeAndTreeTests.java
 	javac -d ./Classes -cp ../../../../libs/*:../../Classes/:. TreeParserTests.java
 
-check: all
+run:
 	java -cp ../../../../libs/*:../../Classes/:./Classes/:. org.junit.runner.JUnitCore OrderedTreeAndTreeTests
 	java -cp ../../../../libs/*:../../Classes/:./Classes/:. org.junit.runner.JUnitCore TreeParserTests
+
+check: all run
+

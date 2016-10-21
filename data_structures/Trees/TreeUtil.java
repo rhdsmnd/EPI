@@ -103,10 +103,9 @@ public class TreeUtil {
 			int childInd = 0;
 			Tree<T> child;
 
-			// hard code condition for ordered tree for now
 			while (nextToken(strBuf) != null && nextToken(strBuf) == '(') {
 				child =	this.treeFromString(strBuf, treeType, numChildren);
-				root.setChild(root.numChildren(), child);
+				setChild(root, child, root.numChildren());
 			}
 
 			if (nextToken(strBuf) != null && nextToken(strBuf) == ')') {
@@ -117,6 +116,14 @@ public class TreeUtil {
 				return null;
 			}
 
+		}
+
+		protected void setChild(Tree<T> root, Tree<T> child, int index) {
+			if (root.getTreeType().isAssignableFrom(OrderedTree.class)) {
+				((OrderedTree<T>) root).setChild(index, child);
+			} else if (root.getTreeType().isAssignableFrom(UnorderedTree.class)) {
+				((UnorderedTree<T>) root).addChild(child);
+			}
 		}
 
 		private Character nextToken(StringBuffer strBuf) {
