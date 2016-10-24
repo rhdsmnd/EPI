@@ -58,6 +58,24 @@ public abstract class Tree<T> {
 
 	//public abstract boolean isEqual(Tree<T> otherTree);
 
+	// optimize
+	public boolean findDescendant(Tree<T> desc) {
+		// rethink?
+		if (this == desc) {
+			return true;
+		}
+
+		Iterator<Tree<T>> children = this.getChildren();
+		while (children.hasNext()) {
+			// depth first
+			Tree<T> child = children.next();
+			if (child == desc || child.findDescendant(desc)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public abstract void deleteChild(Tree<T> child);
 
@@ -67,7 +85,6 @@ public abstract class Tree<T> {
 
 	public abstract Iterator<Tree<T>> getChildren();
 
-	
 	protected Tree<T> parent;
 	protected T value;
 	protected final int maxChildren;

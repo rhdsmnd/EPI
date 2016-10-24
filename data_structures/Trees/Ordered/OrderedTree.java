@@ -95,6 +95,8 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 
 		if (!equalValues) {
+			System.out.println(thisData);
+			System.out.println(otherData);
 			return false;
 		}
 
@@ -108,6 +110,8 @@ public class OrderedTree<T> extends Tree<T> {
 				continue;
 			} else if (thisChild == null || otherChild == null
 					|| !(thisChild.isEqual(otherChild))) {
+				System.out.println(thisChild);
+				System.out.println(otherChild);
 				return false;
 			}
 		}

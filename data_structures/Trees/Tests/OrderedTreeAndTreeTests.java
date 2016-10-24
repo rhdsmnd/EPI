@@ -145,6 +145,9 @@ public class OrderedTreeAndTreeTests {
 		eqChild2.setChild(1, eqChild6);
 
 		assertTrue(root.isEqual(eqRoot));
+		assertTrue(root.findDescendant(child6));
+		assertTrue(root.findDescendant(child3));
+		assertFalse(root.findDescendant(eqChild6));
 
 		root.deleteChild(0);
 		eqRoot.deleteChild(0);

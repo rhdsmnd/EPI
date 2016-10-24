@@ -9,7 +9,6 @@ public class TreeUtil {
 		public TreeParser(Class<T> dataType,
 							Class<? extends Tree> treeType) {
 			this.treeType = treeType;
-			System.out.println("class type is: " + dataType);
 			if (dataType == String.class) {
 				this.dataParser = ((StringBuffer strBuf) -> {
 					// search for ", continue if instance = \" // 
@@ -73,8 +72,14 @@ public class TreeUtil {
 
 		public Tree<T> treeFromString(String str, Class<? extends Tree> treeType,
 										int numChildren) {
+			// make sure numChildren > 0
 			return treeFromString(new StringBuffer(str), treeType, numChildren);
 		}
+
+		public Tree<T> treeFromString(String str, Class<? extends Tree> treeType) {
+			return treeFromString(new StringBuffer(str), treeType, Integer.MAX_VALUE);
+		}
+
 
 		// syntax (1 () ()))
 		public Tree<T> treeFromString(StringBuffer strBuf,
@@ -119,9 +124,10 @@ public class TreeUtil {
 		}
 
 		protected void setChild(Tree<T> root, Tree<T> child, int index) {
-			if (root.getTreeType().isAssignableFrom(OrderedTree.class)) {
+			if ((OrderedTree.class).isAssignableFrom(root.getTreeType())) {
 				((OrderedTree<T>) root).setChild(index, child);
-			} else if (root.getTreeType().isAssignableFrom(UnorderedTree.class)) {
+			} else if ((UnorderedTree.class).isAssignableFrom(root.getTreeType())
+						&& child != null) {
 				((UnorderedTree<T>) root).addChild(child);
 			}
 		}
@@ -143,6 +149,8 @@ public class TreeUtil {
 				return new OrderedTree<T>(numChildren, (T) dataObj);
 			} else if (treeType == BinTree.class) {
 				return new BinTree<T>((T) dataObj);
+			} else if (treeType == UnorderedTree.class) {
+				return new UnorderedTree<T>((T) dataObj);
 			} else {
 				System.out.println("Tree type unrecognized.");
 				return null;

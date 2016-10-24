@@ -24,13 +24,13 @@ public class Tester {
 
 			/** Parse case by case. */
 			while ((line = inpScanner.nextLine()) != null) {
-				/** If loop exits before parsing an entire case, we know an error occurred by checking STARTEDCASE. */
+				/** If loop exits before parsing an entire case, we know an error occurred by checking STARTEDPARSING. */
 				startedParsing = true;
 
 				/** Parse input arguments line by line until we hit "-- Expected --" line. */
 				input = new StringBuffer();
 				while (!line.equals("-- Expected --")) {
-					input.append(line);
+					input.append(line + "\n");
 					line = inpScanner.nextLine();
 					if (line == null) {
 						System.out.println("Error parsing test case: no \"-- Expected --\" line");
@@ -43,7 +43,7 @@ public class Tester {
 				}
 				expOutput = line;
 
-				if ((line = inpScanner.nextLine()) != null || line.equals("")) {
+				if ((line = inpScanner.nextLine()) == null || !line.equals("")) {
 					System.out.println("No blank line after test case.");
 				}
 				startedParsing = false;

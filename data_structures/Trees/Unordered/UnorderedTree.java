@@ -3,10 +3,15 @@ import java.util.HashSet;
 
 public class UnorderedTree<T> extends Tree<T> {
 
+	public UnorderedTree(T value) {
+		this(value, UnorderedTree.class);
+	}
+
 	public UnorderedTree(T value, Class<?> treeType) {
 		super(Integer.MAX_VALUE, value, treeType);
 		children = new HashSet<Tree<T>>();
 	}
+
 
 	public int numChildren() {
 		return children.size();
