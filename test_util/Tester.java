@@ -6,8 +6,48 @@ public class Tester {
 
 	private Tester() { }
 
+	// consider implementing Runnable interface
+	class TestCase {
+		public TestCase(String input, String expOutput, TestLogic func) {
+			this(input, expOutput, func, false);
+		}
+
+		public TestCase(String input, String expOutput, TestLogic func, boolean verbose) {
+			this.input = input;
+			this.expOutput = expOutput;
+			this.func = func;
+			output = "";
+			result = false;
+			ran = false;
+		}
+
+		public void runTestCase() {
+			if (ran) {
+				return;
+			} else {
+				output = func.runTestCase(input, expOutput, verbose);
+				result = output.equals(expOutput);
+
+				if (result) {
+					// consider adding a title or description to TestCase instead of using input
+					System.out.println("Test passed: " + input);
+				} else if (verbose) {
+					System.out.println("Test failed: " + input);
+					System.out.println("----- Expected -----");
+					System.out.println(expOutput);
+					System.out.println("----- Actual -----");
+					System.out.println(output);
+				} else {
+					System.out.println("Test failed: " + input);
+				}
+
+				ran = true;
+			}
+		}
+	}
+
 	interface TestLogic {
-		boolean runTestCase(StringBuffer inp, String expOutput, boolean verbose);
+		String runTestCase(String inp, String expOutput, boolean verbose);
 	}
 
 	public static void runTests(String testFileName, boolean verbose, TestLogic func) {
@@ -23,7 +63,7 @@ public class Tester {
 			boolean startedParsing = false;
 
 			/** Parse case by case. */
-			while ((line = inpScanner.nextLine()) != null) {
+			while ((line = getNextLine(inpScanner)) != null) {
 				/** If loop exits before parsing an entire case, we know an error occurred by checking STARTEDPARSING. */
 				startedParsing = true;
 
@@ -31,35 +71,44 @@ public class Tester {
 				input = new StringBuffer();
 				while (!line.equals("-- Expected --")) {
 					input.append(line + "\n");
-					line = inpScanner.nextLine();
+					line = getNextLine(inpScanner);
 					if (line == null) {
 						System.out.println("Error parsing test case: no \"-- Expected --\" line");
 					}
 				}
 
-				line = inpScanner.nextLine();
+				line = getNextLine(inpScanner);
 				if (line == null) {
 					System.out.println("Error parsing test case: no solution");
 				}
 				expOutput = line;
 
-				if ((line = inpScanner.nextLine()) == null || !line.equals("")) {
-					System.out.println("No blank line after test case.");
-				}
-				startedParsing = false;
-
-				boolean testResult = func.runTestCase(input, expOutput, verbose);
+				boolean testResult = func.runTestCase(input.toString(), expOutput, verbose);
 
 				testCasesRun += 1;
 				if (testResult) {
 					successfulRun += 1;
 				}
+
+				if ((line = getNextLine(inpScanner)) != null && !line.equals("")) {
+					System.out.println("No blank line after test case.");
+				}
+				startedParsing = false;
+
 			}
 			System.out.println("Test summary: " + successfulRun.toString() + " / " + testCasesRun.toString() + " passed");
 		} catch(IOException e) {
 			System.out.println("IOException in runTests: " + e.toString());
 		} finally {
 			if (inpScanner != null) inpScanner.close();
+		}
+	}
+
+	private static String getNextLine(Scanner testFile) {
+		if (testFile.hasNextLine()) {
+			return testFile.nextLine();
+		} else {
+			return null;
 		}
 	}
 }
