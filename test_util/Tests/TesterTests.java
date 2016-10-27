@@ -32,7 +32,7 @@ public class TesterTests {
 		CaptureOutput consoleOutput = new CaptureOutput(System.out);
 		System.setOut(consoleOutput);
 		Tester.runTests("simple_test.txt", false, (inp, expOutput, verbose) -> {
-					return inp.trim().equals(expOutput);
+					return inp.trim();
 		});
 
 	}

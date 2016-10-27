@@ -7,7 +7,7 @@ public class Tester {
 	private Tester() { }
 
 	// consider implementing Runnable interface
-	class TestCase {
+	static class TestCase {
 		public TestCase(String input, String expOutput, TestLogic func) {
 			this(input, expOutput, func, false);
 		}
@@ -15,20 +15,30 @@ public class Tester {
 		public TestCase(String input, String expOutput, TestLogic func, boolean verbose) {
 			this.input = input;
 			this.expOutput = expOutput;
-			this.func = func;
 			output = "";
-			result = false;
+			this.func = func;
+			passed = false;
 			ran = false;
+			this.verbose = verbose;
 		}
 
-		public void runTestCase() {
+		private String input;
+		private String expOutput;
+		private String output;
+		private TestLogic func;
+		private boolean passed;
+		private boolean ran;
+		private boolean verbose;
+
+		public boolean runTestCase() {
 			if (ran) {
-				return;
+				System.out.println("Already ran test case.");
+				return passed;
 			} else {
 				output = func.runTestCase(input, expOutput, verbose);
-				result = output.equals(expOutput);
+				passed = output.equals(expOutput);
 
-				if (result) {
+				if (passed) {
 					// consider adding a title or description to TestCase instead of using input
 					System.out.println("Test passed: " + input);
 				} else if (verbose) {
@@ -42,6 +52,7 @@ public class Tester {
 				}
 
 				ran = true;
+				return passed;
 			}
 		}
 	}
@@ -83,10 +94,13 @@ public class Tester {
 				}
 				expOutput = line;
 
-				boolean testResult = func.runTestCase(input.toString(), expOutput, verbose);
+				// set verbose later
+				Tester.TestCase cur = new Tester.TestCase(input.toString(), expOutput, func, verbose);
+
+				boolean passed = cur.runTestCase();
 
 				testCasesRun += 1;
-				if (testResult) {
+				if (passed) {
 					successfulRun += 1;
 				}
 
