@@ -35,20 +35,22 @@ public class Tester {
 				System.out.println("Already ran test case.");
 				return passed;
 			} else {
-				output = func.runTestCase(input, expOutput, verbose);
-				passed = output.equals(expOutput);
+				output = func.runTestCase(input, verbose);
+				passed = output.equals(expOutput) || output.equals(expOutput.trim());
 
 				if (passed) {
 					// consider adding a title or description to TestCase instead of using input
-					System.out.println("Test passed: " + input);
+					// consider handling trim() differently
+					System.out.println("Test passed: " + input.trim());
 				} else if (verbose) {
-					System.out.println("Test failed: " + input);
+					System.out.println("Test failed: " + input.trim());
 					System.out.println("----- Expected -----");
-					System.out.println(expOutput);
+					System.out.println(expOutput.trim());
 					System.out.println("----- Actual -----");
-					System.out.println(output);
+					System.out.println(output.trim());
+					System.out.println("------------------\n");
 				} else {
-					System.out.println("Test failed: " + input);
+					System.out.println("Test failed: " + input.trim());
 				}
 
 				ran = true;
@@ -58,7 +60,7 @@ public class Tester {
 	}
 
 	interface TestLogic {
-		String runTestCase(String inp, String expOutput, boolean verbose);
+		String runTestCase(String inp, boolean verbose);
 	}
 
 	public static void runTests(String testFileName, boolean verbose, TestLogic func) {
@@ -70,16 +72,17 @@ public class Tester {
 			String line;
 
 			StringBuffer input;
-			String expOutput;
+			StringBuffer expOutput;
 			boolean startedParsing = false;
 
 			/** Parse case by case. */
 			while ((line = getNextLine(inpScanner)) != null) {
 				/** If loop exits before parsing an entire case, we know an error occurred by checking STARTEDPARSING. */
 				startedParsing = true;
+				input = new StringBuffer();
+				expOutput = new StringBuffer();
 
 				/** Parse input arguments line by line until we hit "-- Expected --" line. */
-				input = new StringBuffer();
 				while (!line.equals("-- Expected --")) {
 					input.append(line + "\n");
 					line = getNextLine(inpScanner);
@@ -88,14 +91,13 @@ public class Tester {
 					}
 				}
 
-				line = getNextLine(inpScanner);
-				if (line == null) {
-					System.out.println("Error parsing test case: no solution");
+				// stop output at EOF or blank line
+				while ((line = getNextLine(inpScanner)) != null && !line.equals("")) {
+					expOutput.append(line + "\n");
 				}
-				expOutput = line;
 
-				// set verbose later
-				Tester.TestCase cur = new Tester.TestCase(input.toString(), expOutput, func, verbose);
+				Tester.TestCase cur = new Tester.TestCase(input.toString(),
+													expOutput.toString(), func, verbose);
 
 				boolean passed = cur.runTestCase();
 
@@ -104,9 +106,6 @@ public class Tester {
 					successfulRun += 1;
 				}
 
-				if ((line = getNextLine(inpScanner)) != null && !line.equals("")) {
-					System.out.println("No blank line after test case.");
-				}
 				startedParsing = false;
 
 			}

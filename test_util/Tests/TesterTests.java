@@ -31,9 +31,11 @@ public class TesterTests {
 
 		CaptureOutput consoleOutput = new CaptureOutput(System.out);
 		System.setOut(consoleOutput);
-		Tester.runTests("simple_test.txt", false, (inp, expOutput, verbose) -> {
+		Tester.runTests("simple_test.txt", true, (inp, verbose) -> {
 					return inp.trim();
 		});
+
+		assertTrue(consoleOutput.getOutput().contains("Test summary: 4 / 4 passed"));
 
 	}
 
