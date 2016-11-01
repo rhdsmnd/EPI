@@ -84,16 +84,21 @@ public class Tester {
 
 				/** Parse input arguments line by line until we hit "-- Expected --" line. */
 				while (!line.equals("-- Expected --")) {
-					input.append(line + "\n");
+					if (line.length() > 0 && line.charAt(0) != '#') {
+						input.append(line + "\n");
+					}
 					line = getNextLine(inpScanner);
 					if (line == null) {
 						System.out.println("Error parsing test case: no \"-- Expected --\" line");
+						return;
 					}
 				}
 
 				// stop output at EOF or blank line
 				while ((line = getNextLine(inpScanner)) != null && !line.equals("")) {
-					expOutput.append(line + "\n");
+					if (line.charAt(0) != '#') {
+						expOutput.append(line + "\n");
+					}
 				}
 
 				Tester.TestCase cur = new Tester.TestCase(input.toString(),

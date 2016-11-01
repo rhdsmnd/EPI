@@ -18,31 +18,21 @@ public class Lca {
 			return rightChildRes;
 		}
 
-		if (root.findDescendant(firstBinTree) && root.findDescendant(secondBinTree)) {	
+		if (root.hasDescendant(firstBinTree) && root.hasDescendant(secondBinTree)) {	
 			return root;
 		} else {
 			return null;
 		}
-
-		/**
-        if (leftAnc == null) {
-            return rightAnc;
-        } else if (rightAnc == null) {
-            return leftAnc;
-        } else {
-            return root;
-        }
-
-        if (firstBinTree == secondBinTree) {
-            // alternatively, note the error
-            return firstBinTree;
-        }
-
-        if (root == firstBinTree) {
-            return firstBinTree;
-        } else if (root == secondBinTree) {
-            return secondBinTree;
-        }
-		*/
     }
+
+	public static<T> boolean hasDescendant(BinTree<T> root, final BinTree<T> descendant) {
+		// memoize
+		if (root == null) {
+			return false;
+		} else if (root.isEqual(descendant)) {
+			return true;
+		}
+		return hasDescendant(root.getChild(BinTree.LEFT), descendant) ||
+				hasDescendant(root.getChild(BinTree.RIGHT), descendant);
+	}
 }
