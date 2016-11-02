@@ -88,8 +88,7 @@ public class TreeUtil {
 			// null checks for strBuf
 			nextToken(strBuf);
 
-			int ind = 0;
-			if (strBuf.charAt(ind) != '(') {
+			if (strBuf.charAt(0) != '(') {
 				// raise exception
 				System.out.println("Error with tree format");
 				return null;
@@ -97,8 +96,9 @@ public class TreeUtil {
 
 			// outline
 
-			strBuf.deleteCharAt(ind);
+			strBuf.deleteCharAt(0);
 			if (nextToken(strBuf) == ')') {
+				strBuf.deleteCharAt(0);
 				return null;
 			}
 

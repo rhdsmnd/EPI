@@ -119,6 +119,13 @@ public class TreeParserTests {
 
 		assertTrue(eqIntTree.isEqual(parsedIntTree));
 
+		String fourLevels = "(1 (2 (3 (4 () ()) (5 () ())) (6 (7 () ()) (8 () ()))) (9 (10 (11 () ()) (12 () ())) (13 (14 () ()) (15 () ()))))";
+
+		parsedIntTree = (OrderedTree<Integer>) intTreeParser.treeFromString(fourLevels, BinTree.class, 2);
+		assertTrue(parsedIntTree.getChild(BinTree.LEFT) != null);
+		assertTrue(parsedIntTree.getChild(BinTree.LEFT).getChild(BinTree.RIGHT) != null);
+		assertTrue(parsedIntTree.getChild(BinTree.LEFT).getChild(BinTree.RIGHT).getValue() == 6);
+
 	}
 
 	
