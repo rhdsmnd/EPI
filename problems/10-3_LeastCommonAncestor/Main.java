@@ -26,7 +26,10 @@ public class Main {
 			BinTree<Integer> subTree2 
 						= (BinTree<Integer>) intTreeParser.treeFromString(inpTrees[2],
 															BinTree.class, 2);
-			BinTree<Integer> lca = Lca.findLca(root, subTree1, subTree2); 
+			Lca<Integer> memoLca = new Lca<Integer>();
+
+			BinTree<Integer> lca = memoLca.findLca(root, subTree1, subTree2);
+
 			if (lca != null) {
 				return lca.toString();
 			} else {
