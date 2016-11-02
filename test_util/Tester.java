@@ -41,16 +41,16 @@ public class Tester {
 				if (passed) {
 					// consider adding a title or description to TestCase instead of using input
 					// consider handling trim() differently
-					System.out.println("Test passed: " + input.trim());
+					System.out.println("Test passed: " + input.trim().split("\n")[0]);
 				} else if (verbose) {
-					System.out.println("Test failed: " + input.trim());
+					System.out.println("Test failed: " + input.trim().split("\n")[0]);
 					System.out.println("----- Expected -----");
 					System.out.println(expOutput.trim());
 					System.out.println("----- Actual -----");
 					System.out.println(output.trim());
 					System.out.println("------------------\n");
 				} else {
-					System.out.println("Test failed: " + input.trim());
+					System.out.println("Test failed: " + input.trim().split("\n")[0]);
 				}
 
 				ran = true;
@@ -84,7 +84,7 @@ public class Tester {
 
 				/** Parse input arguments line by line until we hit "-- Expected --" line. */
 				while (!line.equals("-- Expected --")) {
-					if (line.length() > 0 && line.charAt(0) != '#') {
+					if (line.length() > 0 && line.trim().charAt(0) != '#') {
 						input.append(line + "\n");
 					}
 					line = getNextLine(inpScanner);

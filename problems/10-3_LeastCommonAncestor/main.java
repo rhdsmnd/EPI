@@ -1,19 +1,20 @@
+import java.util.Arrays;
 
 public class Main {
 	public static void main(String[] args) {
-		boolean verbose = false;
-		if (args.length > 1 &&
-					(args[1].equals("--verbose") || args[1].equals("-v"))) {
-			verbose = true;
+		boolean isVerbose = false;
+		if (args.length == 1 &&
+					(args[0].equals("--verbose") || args[0].equals("-v"))) {
+			isVerbose = true;
 		}
 		System.out.println("Running tests for Elements of Programming Interviews,"
 							+ " problem 10.3: Least Common Ancestor.");
 
-		Tester.runTests("./tests.txt", verbose, (input, verbose) -> {
+		Tester.runTests("./tests.txt", isVerbose, (input, verbose) -> {
 			TreeUtil.TreeParser<Integer> intTreeParser
 						= new TreeUtil.TreeParser<Integer>(Integer.class, BinTree.class);
 			String[] inpTrees = input.split("\n");
-			if (input.length != 3) {
+			if (inpTrees.length != 3) {
 				System.out.println("Need 3 trees to run leastCommonAncestor function.");
 			}
 			BinTree<Integer> root
@@ -26,10 +27,13 @@ public class Main {
 						= (BinTree<Integer>) intTreeParser.treeFromString(inpTrees[2],
 															BinTree.class, 2);
 			BinTree<Integer> lca = Lca.findLca(root, subTree1, subTree2); 
-			return lca.toString();
-		};
-
-		}
-
+			if (lca != null) {
+				return lca.toString();
+			} else {
+				System.out.println(subTree1);
+				System.out.println(subTree2);
+				return "";
+			}
+		});
 	}	
 }

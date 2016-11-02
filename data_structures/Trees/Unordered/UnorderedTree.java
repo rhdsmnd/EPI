@@ -44,5 +44,16 @@ public class UnorderedTree<T> extends Tree<T> {
 		return children.contains(child);
 	}
 
+	@Override
+	public String toString() {
+		String ret = "";
+		ret += "(" + this.getValue();
+		for (Object child: children) {
+			ret += " " + child.toString();
+		}
+		ret += ")";
+		return ret;
+	}
+
 	private HashSet<Tree<T>> children;	
 }

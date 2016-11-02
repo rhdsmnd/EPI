@@ -18,7 +18,7 @@ public class Lca {
 			return rightChildRes;
 		}
 
-		if (root.hasDescendant(firstBinTree) && root.hasDescendant(secondBinTree)) {	
+		if (hasDescendant(root, firstBinTree) && hasDescendant(root, secondBinTree)) {
 			return root;
 		} else {
 			return null;
@@ -32,7 +32,7 @@ public class Lca {
 		} else if (root.isEqual(descendant)) {
 			return true;
 		}
-		return hasDescendant(root.getChild(BinTree.LEFT), descendant) ||
-				hasDescendant(root.getChild(BinTree.RIGHT), descendant);
+		return hasDescendant((BinTree<T>) root.getChild(BinTree.LEFT), descendant) ||
+				hasDescendant((BinTree<T>) root.getChild(BinTree.RIGHT), descendant);
 	}
 }

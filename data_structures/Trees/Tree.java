@@ -85,6 +85,9 @@ public abstract class Tree<T> {
 
 	public abstract Iterator<Tree<T>> getChildren();
 
+	@Override
+	public abstract String toString();
+
 	protected Tree<T> parent;
 	protected T value;
 	protected final int maxChildren;

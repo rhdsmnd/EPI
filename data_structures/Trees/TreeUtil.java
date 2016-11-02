@@ -117,6 +117,7 @@ public class TreeUtil {
 				strBuf.deleteCharAt(0);
 				return root;
 			} else {
+				System.out.println(strBuf);
 				System.out.println("Error parsing tree");
 				return null;
 			}

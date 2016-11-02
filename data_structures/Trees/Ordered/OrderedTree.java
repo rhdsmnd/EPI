@@ -76,8 +76,6 @@ public class OrderedTree<T> extends Tree<T> {
 	public boolean isEqual(Tree<T> otherTree) {
 		if (otherTree == null || this.treeType != otherTree.getTreeType()
 				|| this.maxChildren() != otherTree.maxChildren()) {
-			System.out.println(this.treeType);
-			System.out.println(otherTree.getTreeType());
 			return false;
 		}
 
@@ -95,8 +93,6 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 
 		if (!equalValues) {
-			System.out.println(thisData);
-			System.out.println(otherData);
 			return false;
 		}
 
@@ -110,8 +106,6 @@ public class OrderedTree<T> extends Tree<T> {
 				continue;
 			} else if (thisChild == null || otherChild == null
 					|| !(thisChild.isEqual(otherChild))) {
-				System.out.println(thisChild);
-				System.out.println(otherChild);
 				return false;
 			}
 		}
@@ -162,6 +156,23 @@ public class OrderedTree<T> extends Tree<T> {
 		}
 		return false;
 	}
+
+	// TEST TEST TEST
+	@Override
+	public String toString() {
+		String ret = "";
+		ret += "(" + this.getValue();
+		for (int i = 0; i < children.length; i += 1) {
+			if (children[i] == null) {
+				ret += " ()";
+			} else { 
+				ret += " " + children[i].toString();
+			}
+		}
+		ret += ")";
+		return ret;
+	}
+
 	protected int numChildren;
 	protected final Object[] children;
 }
