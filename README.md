@@ -4,6 +4,13 @@ Note: This is my personal side project; it's not officially affiliated with or r
 
 ### Background/Motivation
 
-When first solving EPI (Elements of Programming Interviews) problems, the code I wrote to solve problems was quickly becoming disorganized and unmaintainable.  I realized that I was spending more time implementing common functionality (parsing input for tests, creating data structures) for each problem than I was for implementing the actual solutions.
+When first solving EPI (Elements of Programming Interviews) problems, I realized that most of the code I was writing had little to do with the solution.  Instead, most of my time was spent on secondary tasks like parsing file input and output, writing test harnesses, and rewriting basic data structures.  At the core, each problem should only need one function, give or take several helper functions, and the function that executes it.
 
-Each problem clearly had similar components and, in theory, a unified way to structure solutions, tests, and data structures that would streamline the process of writing and verifying the algorithms used to solve EPI problems.  If I sorted out all the ancillary operations (test harness to parse input file and run test cases, providing data structures such as "simple" trees and corresponding utility functions not included in the JDK) and provided functionality for them as clearly defined components, I could focus all my efforts on writing code for the two primary requirements of EPI solutions: the algorithm, and its accompanying (standardly formatted) test cases (with a minimum amount of logic to tell the test harness how to parse the arguments and expected output, though this in the future may also be able to be automated).
+Luckily, most of the secondary tasks were similar from problem to problem and I decided to create components that could take care of them.  Namely, a test harness that could parse test files and data structures not offered (or needed extra functionality) by the JDK.  The first can be found in the “test_util” directory, and the second in the “data_structures” directory.
+
+### Test Harness (under “test_util”)
+
+
+
+### Data Structures (under “data_structures”)
+
