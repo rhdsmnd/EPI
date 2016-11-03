@@ -2,7 +2,7 @@ import java.lang.String;
 import java.util.HashMap;
 
 public class AnonLetter {
-    public static boolean canMake(String letter, String mag) {
+    public static Boolean canMake(String letter, String mag) {
         //Consider using arrayof 256 chars for ascii
         HashMap<Character, Integer> letterChars
                             = new HashMap<Character, Integer>();
