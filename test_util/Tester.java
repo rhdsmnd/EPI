@@ -63,6 +63,20 @@ public class Tester {
 		String runTestCase(String inp, boolean verbose);
 	}
 
+	public static void runMain(String[] progArgs, int chapter, int prob,
+								String description, TestLogic func) {
+		boolean isVerbose = false;
+		if (progArgs.length == 1 &&
+				(progArgs[0].equals("--verbose") || progArgs[0].equals("-v"))) {
+			isVerbose = true;
+		}
+        System.out.println("Running tests for Elements of Programming Interviews,"
+				+ " problem " + chapter + "." + prob + ": " + description);
+
+		// maybe feed in filename as argument
+		runTests("./tests.txt", isVerbose, func);
+	}
+
 	public static void runTests(String testFileName, boolean verbose, TestLogic func) {
 		Integer testCasesRun = 0;
 		Integer successfulRun = 0;

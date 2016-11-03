@@ -2,15 +2,7 @@ import java.util.Arrays;
 
 public class Main {
 	public static void main(String[] args) {
-		boolean isVerbose = false;
-		if (args.length == 1 &&
-					(args[0].equals("--verbose") || args[0].equals("-v"))) {
-			isVerbose = true;
-		}
-		System.out.println("Running tests for Elements of Programming Interviews,"
-							+ " problem 10.3: Least Common Ancestor.");
-
-		Tester.runTests("./tests.txt", isVerbose, (input, verbose) -> {
+		Tester.runMain(args, 10, 3, "Least Common Ancestor", (input, verbose) -> {
 			TreeUtil.TreeParser<Integer> intTreeParser
 						= new TreeUtil.TreeParser<Integer>(Integer.class, BinTree.class);
 			String[] inpTrees = input.split("\n");

@@ -2,14 +2,7 @@
 
 public class Main {
     public static void main(String[] args) {
-		boolean isVerbose = false;
-		if (args.length == 1 &&
-				(args[0].equals("--verbose") || args[0].equals("-v"))) {
-			isVerbose = true;
-		}
-        System.out.println("Running tests for Elements of Programming Interviews,"
-				+ " problem 13.2: Anonymous Letter");
-		Tester.runTests("./tests.txt", isVerbose, (input, verbose) -> {
+		Tester.runMain(args, 13, 2, "Anonymous Letter", (input, verbose) -> {
 			int firstQuoteInd = input.indexOf("\"");
 			if (firstQuoteInd == -1) {
 				return "";
@@ -34,5 +27,4 @@ public class Main {
 			return AnonLetter.canMake(letter, dict).toString();
 		});
     }
-
 }
