@@ -2,5 +2,9 @@
 *.swo
 *.class
 *.out
+.svn
+.DS_Store
+#*
+*~
 
 *.jar
