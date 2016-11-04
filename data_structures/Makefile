@@ -30,3 +30,15 @@ $(TREE_CLASSES): $(TREE_SRCS)
 
 clean:
 	rm -rf ./Classes/*
+
+check-graph: graphs
+	javac $(JFLAGS) tests/Tester.java
+	java -ea -cp $(DATA_STRUCT_CLASSPATH) Tester graphs
+
+check-trees: trees
+	javac $(JFLAGS) tests/Tester.java
+	java -ea -cp $(DATA_STRUCT_CLASSPATH) Tester trees
+
+check: default
+	javac $(JFLAGS) tests/Tester.java
+	java -ea -cp $(DATA_STRUCT_CLASSPATH) Tester all

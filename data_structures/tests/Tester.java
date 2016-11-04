@@ -1,6 +1,6 @@
 
-import com.rhdes.graphs;
-import com.rhdes.trees;
+import com.rhdes.graphs.GraphTests;
+import com.rhdes.trees.TreeTests;
 
 import org.junit.Test;
 import ucb.junit.textui;
@@ -30,7 +30,8 @@ public class Tester {
     		    System.exit(1);
     	    }
         }
-        System.exit(textui.runClasses(tests.GraphTests.class, tests.TreeTests.class));
+        System.exit(textui.runClasses(GraphTests.class,
+										TreeTests.class));
     }
 
 }
