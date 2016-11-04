@@ -4,7 +4,7 @@ import org.junit.Test;
 import java.io.PrintStream;
 import java.lang.StringBuffer;
 
-public class TesterTests {
+public class TestRunnerTests {
 
 	@Test
 	public void testOutput() {
@@ -31,7 +31,7 @@ public class TesterTests {
 
 		CaptureOutput consoleOutput = new CaptureOutput(System.out);
 		System.setOut(consoleOutput);
-		Tester.runTests("simple_test.txt", true, (inp, verbose) -> {
+		TestRunner.runTests("simple_test.txt", true, (inp, verbose) -> {
 					return inp.trim();
 		});
 

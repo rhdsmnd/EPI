@@ -1,4 +1,4 @@
 all:
-	javac -d ./Classes Tester.java
+	javac -d ./Classes TestRunner.java
 check:
 	cd ./Tests && make check && cd ..

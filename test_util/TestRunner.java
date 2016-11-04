@@ -2,9 +2,9 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.io.File;
 
-public class Tester {
+public class TestRunner {
 
-	private Tester() { }
+	private TestRunner() { }
 
 	// consider implementing Runnable interface
 	static class TestCase {
@@ -62,6 +62,10 @@ public class Tester {
 	interface TestLogic {
 		String runTestCase(String inp, boolean verbose);
 	}
+	public static void runMain(String[] progArgs, int chapter, int prob,
+								String description) {
+		System.out.println("hi");
+	}
 
 	public static void runMain(String[] progArgs, int chapter, int prob,
 								String description, TestLogic func) {
@@ -115,7 +119,7 @@ public class Tester {
 					}
 				}
 
-				Tester.TestCase cur = new Tester.TestCase(input.toString(),
+				TestRunner.TestCase cur = new TestRunner.TestCase(input.toString(),
 													expOutput.toString(), func, verbose);
 
 				boolean passed = cur.runTestCase();

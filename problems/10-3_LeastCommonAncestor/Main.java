@@ -1,7 +1,13 @@
+
+import com.rhdes.trees.BinTree;
+import com.rhdes.trees.TreeUtil;
+
 import java.util.Arrays;
 
 public class Main {
 	public static void main(String[] args) {
+		TestRunner.runMain(args, 10, 3, "Least Common Ancestor");
+/**
 		Tester.runMain(args, 10, 3, "Least Common Ancestor", (input, verbose) -> {
 			TreeUtil.TreeParser<Integer> intTreeParser
 						= new TreeUtil.TreeParser<Integer>(Integer.class, BinTree.class);
@@ -29,6 +35,6 @@ public class Main {
 				System.out.println(subTree2);
 				return "";
 			}
-		});
-	}	
+		});*/
+	}
 }

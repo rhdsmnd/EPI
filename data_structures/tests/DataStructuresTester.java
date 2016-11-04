@@ -16,7 +16,7 @@ import java.util.Comparator;
  * possible to remove them and still have your package work). */
 
 /** Unit tests for the graph package. */
-public class Tester {
+public class DataStructuresTester {
 
     /** Run all JUnit tests in the graph package. */
     public static void main(String[] args) {

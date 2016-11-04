@@ -1,4 +1,8 @@
+
+import com.rhdes.trees.BinTree;
+
 import java.util.HashMap;
+
 
 /** Finds the "least common ancestor" (lca) of FIRSTBINTREE and SECONDBINTREE,
  *  both of which are in ROOT, where the lca is the node furthest from the root
