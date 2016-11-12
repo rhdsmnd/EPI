@@ -1,6 +1,7 @@
 
 import com.rhdes.graphs.GraphTests;
 import com.rhdes.trees.TreeTests;
+import com.rhdes.stacks.StackTests;
 
 import org.junit.Test;
 import ucb.junit.textui;
@@ -25,13 +26,16 @@ public class DataStructuresTester {
     		    System.exit(textui.runClasses(com.rhdes.graphs.GraphTests.class));
     	    } else if (args[0].equals("trees")) {
     		    System.exit(textui.runClasses(com.rhdes.trees.TreeTests.class));
+    	    } else if (args[0].equals("stacks")) {
+    		    System.exit(textui.runClasses(com.rhdes.stacks.StackTests.class));
     	    } else if (!args[0].equals("all")) {
     		    System.err.println("Unrecognized test class: " + args[0]);
     		    System.exit(1);
     	    }
         }
         System.exit(textui.runClasses(GraphTests.class,
-										TreeTests.class));
+										TreeTests.class,
+										StackTests.class));
     }
 
 }
