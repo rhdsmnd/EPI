@@ -10,7 +10,7 @@ public class Stack<T> {
 	private static final int RESIZE_RATIO = 2;
 
 	public Stack() {
-		super(Integer.MAX_VALUE);
+		this(Integer.MAX_VALUE);
 	}
 
 	public Stack(int maxSize) {
@@ -48,6 +48,10 @@ public class Stack<T> {
 		head += 1;
 		values[head] = value;
 		return true;
+	}
+
+	public boolean empty() {
+		return head == -1;
 	}
 
 	private int head;

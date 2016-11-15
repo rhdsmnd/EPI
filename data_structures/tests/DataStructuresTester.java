@@ -2,6 +2,7 @@
 import com.rhdes.graphs.GraphTests;
 import com.rhdes.trees.TreeTests;
 import com.rhdes.stacks.StackTests;
+import com.rhdes.queues.QueueTests;
 
 import org.junit.Test;
 import ucb.junit.textui;
@@ -28,6 +29,8 @@ public class DataStructuresTester {
     		    System.exit(textui.runClasses(com.rhdes.trees.TreeTests.class));
     	    } else if (args[0].equals("stacks")) {
     		    System.exit(textui.runClasses(com.rhdes.stacks.StackTests.class));
+    	    } else if (args[0].equals("queues")) {
+    		    System.exit(textui.runClasses(com.rhdes.queues.QueueTests.class));
     	    } else if (!args[0].equals("all")) {
     		    System.err.println("Unrecognized test class: " + args[0]);
     		    System.exit(1);

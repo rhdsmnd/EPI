@@ -3,8 +3,9 @@ SHELL = bash
 GRAPH_SRCS := $(wildcard com/rhdes/graphs/*.java)
 TREE_SRCS := $(wildcard com/rhdes/trees/*.java)
 STACK_SRCS := $(wildcard com/rhdes/stacks/*.java)
+QUEUE_SRCS := $(wildcard com/rhdes/queues/*.java)
 
-SRCS := $(GRAPH_SRCS) $(TREE_SRCS) $(STACK_SRCS)
+SRCS := $(GRAPH_SRCS) $(TREE_SRCS) $(STACK_SRCS) $(QUEUE_SRCS)
 
 DATA_STRUCT_CLASSPATH = ./Classes:../../libs/*
 
@@ -14,14 +15,17 @@ JFLAGS = -Xlint:deprecation -cp $(DATA_STRUCT_CLASSPATH) -d ./Classes
 GRAPH_CLASSES = $(GRAPH_SRCS:.java=.class)
 TREE_CLASSES = $(TREE_SRCS:.java=.class)
 STACK_CLASSES = $(STACK_SRCS:.java=.class)
+QUEUE_CLASSES = $(QUEUE_SRCS:.java=.class)
 
-default: graphs trees stacks
+default: graphs trees stacks queues
 
 graphs: $(GRAPH_CLASSES)
 
 trees: $(TREE_CLASSES)
 
 stacks: $(STACK_CLASSES)
+
+queues: $(QUEUE_CLASSES)
 
 $(CLASSES): $(SRCS)
 	javac $(JFLAGS) $(SRCS)
@@ -34,6 +38,9 @@ $(TREE_CLASSES): $(TREE_SRCS)
 
 $(STACK_CLASSES): $(STACK_SRCS)
 	javac $(JFLAGS) $(STACK_SRCS)
+
+$(QUEUE_CLASSES): $(QUEUE_SRCS)
+	javac $(JFLAGS) $(QUEUE_SRCS)
 
 clean:
 	rm -rf ./Classes/*
@@ -49,6 +56,10 @@ check-trees: default
 check-stacks: default
 	javac $(JFLAGS) tests/DataStructuresTester.java
 	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester stacks
+
+check-queues: default
+	javac $(JFLAGS) tests/DataStructuresTester.java
+	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester queues
 
 check: default
 	javac $(JFLAGS) tests/DataStructuresTester.java

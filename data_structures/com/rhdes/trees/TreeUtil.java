@@ -159,4 +159,43 @@ public class TreeUtil {
 			}
 		}
 	}
+
+	public static void inorderTraversal(BinTree<T> t) {
+		Stack<BinTree<T>> inorderStack = new Stack<BinTree<T>>();
+		inorderAddToStack(t, inorderStack);
+
+		//have visit take in lambda function
+		//visit(inorderStack);
+	}
+
+	public static void inorderIterTraversal(BinTree<T> t) {
+		Stack<BinTree<T>> inorderStack = new Stack<BinTree<T>>();
+		HashSet<BinTree<T>> visited = new HashSet<BinTree<T>>();
+		
+		BinTree<T> iter = t;
+		while (iter != null) {
+			BinTree<T> left = t.getChild(BinTree.LEFT);
+			
+			// need to visit left
+			if (left != null && !visited.contains(left)) {
+				inorderStack.push(left);
+				inorderStack.push(iter);
+				continue;
+			}
+
+			//visit(iter);
+
+			inorderStack.push(t.getChild(BinTree.RIGHT));
+		}
+	}
+
+	private void inorderAddToStack(BinTree<T> t, Stack<BinTree<T>> treeStack) {
+		if (t == null) {
+			return;
+		} else {
+			inorderAddToStack(t.getChild(BinTree.RIGHT), treeStack);
+			treeStack.push(t);
+			inorderAddToStack(t.getChild(BinTree.LEFT), treeStack);
+		}
+	}
 }

@@ -9,7 +9,7 @@ public class StackTests {
 
 	@Before
 	public void before() {
-		testStack = new Stack();
+		testStack = new Stack<Integer>();
 	}
 
 	@Test

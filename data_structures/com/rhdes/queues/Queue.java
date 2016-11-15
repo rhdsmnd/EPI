@@ -18,26 +18,33 @@ public class Queue<T> {
 	}
 
 	public Queue(int maxSize) {
-		if (maxSize < 0) {
+		if (maxSize <= 0) {
 			// exception
 			this.maxSize = 0;
 		} else {
 			this.maxSize = maxSize;
 		}
-		values = new Object[DEFAULT_SIZE];
+		
+		if (maxSize < 16) {
+			values = new Object[maxSize];
+		} else {
+			values = new Object[16];
+		}
+
+		full = false;
+
 		head = 0;
 		tail = 0;
 	}
 
 	public T dequeue() {
-		if (head != tail) {
+		if (head != tail || full) {
 			T ret = (T) values[tail];
 			tail = advance(tail);
-			if (values.length >= DEALLOC_THRESHOLD
-							&& numValues() < values.length / (2 * RESIZE_RATIO)) {
-				// resize, take in both cases, overflow or not
-				//values = Arrays.copyOf(values, values.length / RESIZE_RATIO);
+			if (shouldResize(Resize.SMALLER)) {
+				resize(Resize.SMALLER);
 			}
+			full = false;
 			return ret;
 		} else {
 			// queue empty
@@ -46,47 +53,66 @@ public class Queue<T> {
 	}
 
 	public boolean enqueue(T value) {
-		if (numValues() == maxSize) {
-			// throw exception (stack is full)
+		if (shouldResize(Resize.LARGER)) {
+			resize(Resize.LARGER);
+		} else if (full) {
 			return false;
-		} else if (numValues() == values.length) {
-			// resize
-			//values = Arrays.copyOf(values, values.length * RESIZE_RATIO);
 		}
+		
 		values[head] = value;
 		head = advance(head);
+		full = head == tail;
+
 		return true;
 	}
 
 	private boolean shouldResize(Resize r) {
-		if (r == Resize.SMALLER) {
+		if (r == Resize.SMALLER)	 {
 			return numValues() < 2 * RESIZE_RATIO;
 		} else {
-			return numValues() == values.length;
+			return full && values.length < maxSize;
 		}
 	}
 
 	private void resize(Resize r) {
-		onBoundary = head < tail || values.length == numValues();
+		Object[] newArr;
+		
 		if (r == Resize.SMALLER) {
-
+			newArr = new Object[values.length / 2];
 		} else {
-
+			newArr = new Object[Math.min(values.length * 2, maxSize)];
 		}
-
+		head = copyElems(values, newArr);
+		tail = 0;
+		values = newArr;
+		// should always be false, maybe revisit
+		full = head == tail;
 	}
 
-	pubic int numValues() {
+	private int copyElems(Object[] fromArr, Object[] toArr) {
+		int counter = 0;
+		while (tail != head || full) {
+			if (tail == head) {
+				full = false;
+			}
+			toArr[counter] = fromArr[tail];
+			tail = advance(tail);
+			counter += 1;
+		}
+		return counter;
+	}
+
+	public int numValues() {
 		if (head > tail) {
 			return head - tail;	
 		} else if (head < tail) {
 			// separate arithmetic operations to prevent possible overflow?
 			int tailToEnd = values.length - tail;
 			return head + tailToEnd;
-		} else if (prev(head) == null) {
-			return 0;
-		} else {
+		} else if (full) {
 			return values.length;
+		} else {
+			return 0;
 		}
 	}
 
@@ -99,15 +125,18 @@ public class Queue<T> {
 	}
 
 	private T prev(int index) {
-		if (index < 0) {
+		if (index < 0 || values.length == 0) {
 			// throw exception
-			return null;
+			System.out.println("In prev(int index) of Queue.java: no previous element");
+			return null;	
 		} else if (index == 0)  {
-			return values[values.length - 1];
+			return (T) values[values.length - 1];
 		} else {
-			return values[index - 1];
+			return (T) values[index - 1];
 		}
 	}
+
+	private boolean full;
 
 	// different from 'head' in Stack; corresponds to next empty slot
 	// not index of data in queue
