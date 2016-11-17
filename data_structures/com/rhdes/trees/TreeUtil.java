@@ -160,6 +160,7 @@ public class TreeUtil {
 		}
 	}
 
+/**
 	public static void inorderTraversal(BinTree<T> t) {
 		Stack<BinTree<T>> inorderStack = new Stack<BinTree<T>>();
 		inorderAddToStack(t, inorderStack);
@@ -178,8 +179,8 @@ public class TreeUtil {
 			
 			// need to visit left
 			if (left != null && !visited.contains(left)) {
-				inorderStack.push(left);
 				inorderStack.push(iter);
+				inorderStack.push(left);
 				continue;
 			}
 
@@ -198,4 +199,5 @@ public class TreeUtil {
 			inorderAddToStack(t.getChild(BinTree.LEFT), treeStack);
 		}
 	}
+*/
 }

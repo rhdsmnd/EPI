@@ -1,16 +1,4 @@
-
-import com.rhdes.graphs.GraphTests;
-import com.rhdes.trees.TreeTests;
-import com.rhdes.stacks.StackTests;
-import com.rhdes.queues.QueueTests;
-
-import org.junit.Test;
 import ucb.junit.textui;
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Comparator;
 
 /* You MAY add public @Test methods to this class.  You may also add
  * additional public classes containing "Testing" in their name. These
@@ -20,25 +8,41 @@ import java.util.Comparator;
 /** Unit tests for the graph package. */
 public class DataStructuresTester {
 
+	static final String[] allTests = {"graphs", "queues", "trees", "stacks"};
+
     /** Run all JUnit tests in the graph package. */
     public static void main(String[] args) {
-        if (args.length > 0) {
-    	    if (args[0].equals("graphs")) {
-    		    System.exit(textui.runClasses(com.rhdes.graphs.GraphTests.class));
-    	    } else if (args[0].equals("trees")) {
-    		    System.exit(textui.runClasses(com.rhdes.trees.TreeTests.class));
-    	    } else if (args[0].equals("stacks")) {
-    		    System.exit(textui.runClasses(com.rhdes.stacks.StackTests.class));
-    	    } else if (args[0].equals("queues")) {
-    		    System.exit(textui.runClasses(com.rhdes.queues.QueueTests.class));
-    	    } else if (!args[0].equals("all")) {
-    		    System.err.println("Unrecognized test class: " + args[0]);
-    		    System.exit(1);
-    	    }
-        }
-        System.exit(textui.runClasses(GraphTests.class,
-										TreeTests.class,
-										StackTests.class));
-    }
 
+		if (args.length == 0) {
+			args = allTests;
+		}
+
+		int testRet;
+		for (String arg: args) {
+			if (arg.length() < 2) {
+				//invalid string
+				continue;
+			}
+
+			String modified = arg.substring(0, 1).toUpperCase()
+								+ arg.substring(1, arg.length() - 1);
+
+			String className = "com.rhdes." + arg + "."
+									+ modified + "Tests";
+			try {
+				System.out.println("Running Test Class for: " + arg);
+				System.out.println("- - - - -");
+				Class<?> testClass = ClassLoader.getSystemClassLoader().loadClass(className);
+
+				testRet = textui.runClasses(testClass);
+				System.out.println("- - - - -");
+				System.out.println("Exit code for test runner: " + testRet);
+				System.out.println("-----------------------------");
+			} catch(ClassNotFoundException e) {
+				System.out.println("Could not find test class for data structure "
+									+ arg);
+				System.out.println(e);
+			}
+		}
+    }
 }

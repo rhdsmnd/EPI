@@ -45,22 +45,22 @@ $(QUEUE_CLASSES): $(QUEUE_SRCS)
 clean:
 	rm -rf ./Classes/*
 
-check-graph: default
+check-graph: graphs
 	javac $(JFLAGS) tests/DataStructuresTester.java
 	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester graphs
 
-check-trees: default
+check-trees: trees
 	javac $(JFLAGS) tests/DataStructuresTester.java
 	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester trees
 
-check-stacks: default
+check-stacks: stacks
 	javac $(JFLAGS) tests/DataStructuresTester.java
 	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester stacks
 
-check-queues: default
+check-queues: queues
 	javac $(JFLAGS) tests/DataStructuresTester.java
 	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester queues
 
 check: default
 	javac $(JFLAGS) tests/DataStructuresTester.java
-	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester all
+	java -ea -cp $(DATA_STRUCT_CLASSPATH) DataStructuresTester queues stacks trees graphs
